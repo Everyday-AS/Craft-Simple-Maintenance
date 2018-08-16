@@ -21,8 +21,11 @@ class Plugin extends \craft\base\Plugin
         // Custom initialization code goes here...
         $settings = $this->getSettings();
 
+        // User
+        $isGuest = \Craft::$app->getUser()->isGuest;
+
         // check if maintenance mode is enabled
-        if($settings->maintenance === '1'
+        if($settings->maintenance === '1' && $isGuest
             && substr(\Craft::$app->request->getFullPath(), 0, strlen(\Craft::$app->getConfig()->general->cpTrigger)) !== \Craft::$app->getConfig()->general->cpTrigger){
 
             $html =\Craft::$app->getView()->renderTemplate($settings->view, [
